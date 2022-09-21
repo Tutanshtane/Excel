@@ -1,0 +1,275 @@
+Sub Target()
+'
+' Target Макрос
+'
+' Сочетание клавиш: Ctrl+Shift+T
+'
+'Нахождение максимального ряда'
+    Dim maxrow As Integer
+    Let maxrow = Cells(ActiveSheet.Cells.Rows.Count, 1).End(xlUp).Row
+    
+'Фильтр merchant'
+    ActiveSheet.Range(Cells(1, 1), Cells(maxrow, 2)).AutoFilter Field:=2, Criteria1:="merchant"
+    ActiveSheet.AutoFilter.Range.Offset(1, 0).Rows.SpecialCells(xlCellTypeVisible).Delete (xlShiftUp)
+    Selection.AutoFilter
+    Let maxrow = Cells(ActiveSheet.Cells.Rows.Count, 1).End(xlUp).Row
+
+'Переименование заголовков'
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Номер заказа"
+    Columns("B:E").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "Статус заказа"
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "Имя"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "Фио"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "Фамилия"
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "Номер телефона"
+    Range("F1").Select
+    ActiveCell.FormulaR1C1 = "Способ оплаты"
+    Range("G1").Select
+    ActiveCell.FormulaR1C1 = "Статус оплаты"
+    Columns("H:H").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("H1").Select
+    ActiveCell.FormulaR1C1 = "Товар"
+    Range("I1").Select
+    ActiveCell.FormulaR1C1 = "Причина отмены"
+    Columns("J:M").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("J1").Select
+    ActiveCell.FormulaR1C1 = "Общая сумма"
+    Range("K1").Select
+    ActiveCell.FormulaR1C1 = "Сумма с промокодом"
+    Columns("L:L").Select
+    Selection.Insert Shift:=xlToRight
+    Range("L1").Select
+    ActiveCell.FormulaR1C1 = "Промокод"
+    
+    
+'Вычисление промокода'
+    Range("L2").Select
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-2]-RC[-1]"
+    Columns("L:L").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+
+
+'Обработка даты'
+    Range("M1").Select
+    ActiveCell.FormulaR1C1 = "Создание заказа"
+    Columns("N:R").Select
+    Range("R1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Range("N1").Select
+    ActiveCell.FormulaR1C1 = "Завершение заказа"
+    Range("N2").Select
+    ActiveCell.FormulaR1C1 = ""
+    Columns("O:O").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("N:N").Select
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Columns("M:M").Select
+    Selection.TextToColumns Destination:=Range("M1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :="T", FieldInfo:=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("Q:Q").Select
+    Selection.TextToColumns Destination:=Range("Q1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :="T", FieldInfo:=Array(1, 1), TrailingMinusNumbers:=True
+    Columns("M:M").EntireColumn.AutoFit
+    Columns("Q:Q").EntireColumn.AutoFit
+    Columns("N:N").Select
+    Selection.TextToColumns Destination:=Range("N1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :=".", FieldInfo:=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("R:R").Select
+    Selection.TextToColumns Destination:=Range("R1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :=".", FieldInfo:=Array(1, 1), TrailingMinusNumbers:=True
+    Range("P2").Select
+    ActiveCell.FormulaR1C1 = "=RC[-3]+RC[-2]+6/24"
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-3]+RC[-2]+6/24"
+    Range("P:P").NumberFormat = "dd/mm/yy hh:mm:ss"
+    Columns("P:P").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+    Columns("M:O").Select
+    Range("M1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Range("M1").Select
+    ActiveCell.FormulaR1C1 = "Создание заказа"
+    Range("M2").Select
+    Selection.Copy
+    Range("Q2").Select
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-3]+RC[-2]+6/24"
+    Range("Q:Q").NumberFormat = "dd/mm/yy hh:mm:ss"
+    Columns("Q:Q").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+    Columns("P:N").Select
+    Range("P1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Range("N1").Select
+    ActiveCell.FormulaR1C1 = "Завершение заказа"
+    
+'Настройка ширины столбцов'
+    Columns("T:T").ColumnWidth = 12.57
+    Columns("T:T").EntireColumn.AutoFit
+    Range("P2").Select
+    Columns("B:B").EntireColumn.AutoFit
+    Columns("A:A").EntireColumn.AutoFit
+    Columns("E:E").EntireColumn.AutoFit
+    Columns("F:F").EntireColumn.AutoFit
+    Columns("G:G").EntireColumn.AutoFit
+    Columns("H:H").ColumnWidth = 16.57
+    Columns("I:I").EntireColumn.AutoFit
+    Columns("J:J").EntireColumn.AutoFit
+    Columns("K:K").EntireColumn.AutoFit
+    Columns("L:L").EntireColumn.AutoFit
+    Columns("M:M").EntireColumn.AutoFit
+    Columns("N:N").EntireColumn.AutoFit
+    
+'Проверка дубликатов'
+    Range("O1").Select
+    ActiveCell.FormulaR1C1 = "Дубликат"
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
+        "=IF(RC[-14]<>R[-1]C[-14],IF(RC[-14]=R[1]C[-14],""Первый"",""Нет""),""Второй"")"
+    Columns("O:O").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+        
+'Сцепление значений дубликатов'
+    Range("P1").Select
+    ActiveCell.FormulaR1C1 = "Сцепление"
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
+            "=IF(RC[-1]=""Первый"",IF(R[1]C[-1]=""Второй"",IF(R[2]C[-1]=""Второй"",IF(R[3]C[-1]=""Второй"",IF(R[4]C[-1]=""Второй"",IF(R[5]C[-1]=""Второй"",IF(R[6]C[-1]=""Второй"",IF(R[7]C[-1]=""Второй"",CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8],""; "",R[7]C[-8]),CONCATENATE(RC[-8],""; "",R[1]C[-8],"";" & _
+        " "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8])),CONCATENATE(RC[-8" & _
+        "],""; "",R[1]C[-8],""; "",R[2]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8]))))" & _
+        ""
+    Columns("P:P").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+        
+'Финальный вид столбца товаров'
+    Range("Q1").Select
+    ActiveCell.FormulaR1C1 = "Товары"
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
+        "=IF(RC[-1]=FALSE,RC[-9],RC[-1])"
+    Columns("Q:Q").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+           
+'Настройка столбцов'
+    Columns("P:P").Select
+    Selection.Delete Shift:=xlToLeft
+    Selection.Cut
+    Columns("H:H").Select
+    Selection.Insert Shift:=xlToRight
+    Columns("I:I").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("I2").Select
+    Columns("H:H").ColumnWidth = 36.14
+    Columns("E:E").Select
+    Selection.Insert Shift:=xlToRight
+    
+'ФИО'
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "ФИО"
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
+        "=IF(RC[-1]="""",RC[-2],CONCATENATE(RC[-1],"" "",RC[-2]))"
+    Columns("E:E").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+    Columns("D:C").Select
+    Range("D1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("C:C").ColumnWidth = 26
+    Range("A1").Select
+    
+'Фильтр'
+    ActiveSheet.Range(Cells(1, 1), Cells(maxrow, 14)).AutoFilter Field:=14, Criteria1:="Второй"
+    ActiveSheet.AutoFilter.Range.Offset(1, 0).Rows.SpecialCells(xlCellTypeVisible).Delete (xlShiftUp)
+    Selection.AutoFilter
+    Range("N:N").Select
+    Selection.Delete Shift:=xlToLeft
+    Range("A1").Select
+    
+    
+    
+'Настройка столбцов'
+    Columns("G:G").Select
+    With Selection
+        .HorizontalAlignment = xlGeneral
+        .VerticalAlignment = xlBottom
+        .WrapText = True
+        .Orientation = 0
+        .AddIndent = False
+        .IndentLevel = 0
+        .ShrinkToFit = False
+        .ReadingOrder = xlContext
+        .MergeCells = False
+    End With
+    Selection.ColumnWidth = 51.57
+    Cells.Select
+    Cells.EntireRow.AutoFit
+    Range("A1").Select
+    
+'Сортировка'
+    Selection.AutoFilter
+    Range("L1").Select
+    ActiveSheet.AutoFilter.Sort.SortFields.Clear
+    ActiveSheet.AutoFilter.Sort.SortFields.Add2 Key:= _
+        Range(Cells(1, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)), SortOn:=xlSortOnValues, Order:=xlDescending, DataOption _
+        :=xlSortNormal
+    With ActiveSheet.AutoFilter.Sort
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    Selection.AutoFilter
+    Range("A1").Select
+
+'Подготовка к ВПР'
+    Columns("B:B").Select
+    Selection.Insert Shift:=xlToRight
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "Источник/канал"
+    Columns("F:F").Select
+    Selection.Insert Shift:=xlToRight
+    Range("F1").Select
+    ActiveCell.FormulaR1C1 = "Сотрудник"
+    Range("A1").Select
+    
+'Фильтр Сентября'
+    Selection.AutoFilter
+    ActiveSheet.Range(Cells(1, 1), Cells(maxrow, 15)).AutoFilter Field:=14, Criteria1:=Array( _
+        "#ЗНАЧ!"), Operator:=xlFilterValues, Criteria2:=Array(1, "2/28/2022", 1, _
+        "3/31/2022", 1, "4/30/2022", 1, "5/31/2022", 1, "6/30/2022", 1, "7/31/2022", 1, _
+        "8/31/2022")
+    ActiveSheet.AutoFilter.Range.Offset(1, 0).Rows.SpecialCells(xlCellTypeVisible).Delete (xlShiftUp)
+    Selection.AutoFilter
+    Range("A1").Select
+    
+    
+End Sub
+
