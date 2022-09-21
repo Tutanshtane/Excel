@@ -1,0 +1,4 @@
+    Dim maxrow As Integer
+    Let maxrow = Cells(ActiveSheet.Cells.Rows.Count, 1).End(xlUp).Row
+...
+Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-2]-RC[-1]"
