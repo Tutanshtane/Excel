@@ -5,3 +5,18 @@
 
 
 //Без автоматизации, сделано как костыль. Надо придумать, как сделать динамическое сцепление
+
+
+
+
+//Для VBA:
+    ActiveCell.FormulaR1C1 = "Ñöåïëåíèå"
+    Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
+            "=IF(RC[-1]=""Ïåðâûé"",IF(R[1]C[-1]=""Âòîðîé"",IF(R[2]C[-1]=""Âòîðîé"",IF(R[3]C[-1]=""Âòîðîé"",IF(R[4]C[-1]=""Âòîðîé"",IF(R[5]C[-1]=""Âòîðîé"",IF(R[6]C[-1]=""Âòîðîé"",IF(R[7]C[-1]=""Âòîðîé"",CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8],""; "",R[7]C[-8]),CONCATENATE(RC[-8],""; "",R[1]C[-8],"";" & _
+        " "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8])),CONCATENATE(RC[-8" & _
+        "],""; "",R[1]C[-8],""; "",R[2]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8]))))" & _
+        ""
+    Columns("P:P").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
