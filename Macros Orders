@@ -1,0 +1,105 @@
+Sub Orders()
+'
+' Orders Ìàêðîñ
+'
+' Ñî÷åòàíèå êëàâèø: Ctrl+Shift+O
+'
+'Finding row maximum'
+    Dim maxrow As Integer
+    Let maxrow = Cells(ActiveSheet.Cells.Rows.Count, 1).End(xlUp).Row
+    
+'Main process'
+    Columns("Q:Q").Select
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Columns("AC:AC").Select
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Columns("Q:T").Select
+    Range("T1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("S:S").Select
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Selection.Insert Shift:=xlToRight
+    Columns("R:R").Select
+    Selection.TextToColumns Destination:=Range("R1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :="T", FieldInfo:=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("AB:AB").Select
+    Selection.TextToColumns Destination:=Range("AB1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :="T", FieldInfo:=Array(1, 1), TrailingMinusNumbers:=True
+    Columns("S:S").Select
+    Selection.TextToColumns Destination:=Range("S1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :=".", FieldInfo:=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("AC:AC").Select
+    Selection.TextToColumns Destination:=Range("AC1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=False, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=False, Other:=True, OtherChar _
+        :=".", FieldInfo:=Array(1, 1), TrailingMinusNumbers:=True
+    Range("U2").Select
+    Range(Cells(1, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-3]+RC[-2]+6/24"
+    Range("AE2").Select
+    Range(Cells(1, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-3]+RC[-2]+6/24"
+    Columns("U:U").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+    Columns("AE:AE").Select
+    Selection.Copy
+    Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
+        xlNone, SkipBlanks:=False, Transpose:=False
+
+'date format'
+    Columns("U:U").Select
+    Selection.NumberFormat = "m/d/yyyy"
+    Columns("AE:AE").Select
+    Selection.NumberFormat = "m/d/yyyy"
+    Range("U1").Select
+    ActiveCell.FormulaR1C1 = "Created_at"
+    Range("AE1").Select
+    ActiveCell.FormulaR1C1 = "End_time"
+    
+'Split'
+    Columns("W:W").Select
+    Selection.Insert Shift:=xlToLeft
+    Columns("AH:AH").Select
+    Selection.Insert Shift:=xlToLeft
+    Columns("U:U").Select
+    Application.CutCopyMode = False
+    Selection.TextToColumns Destination:=Range("U1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=True, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=True, Other:=False, OtherChar _
+        :=".", FieldInfo:=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("AE:AE").Select
+    Application.CutCopyMode = False
+    Selection.TextToColumns Destination:=Range("AE1"), DataType:=xlDelimited, _
+        TextQualifier:=xlDoubleQuote, ConsecutiveDelimiter:=True, Tab:=False, _
+        Semicolon:=False, Comma:=False, Space:=True, Other:=False, OtherChar _
+        :=".", FieldInfo:=Array(Array(1, 1), Array(2, 1)), TrailingMinusNumbers:=True
+    Columns("W:W").Select
+    Selection.Delete Shift:=xlToLeft
+    Columns("AH:AH").Select
+    Selection.Delete Shift:=xlToLeft
+        
+'Deleting unnecessary columns'
+    Columns("AD:AB").Select
+    Range("AD1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("T:R").Select
+    Range("T1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Range("A1").Select
+    
+End Sub
+    
