@@ -4,17 +4,17 @@ Sub Target()
 '
 ' Сочетание клавиш: Ctrl+Shift+T
 '
-'Нахождение максимального ряда'
+'Finding Max row'
     Dim maxrow As Integer
     Let maxrow = Cells(ActiveSheet.Cells.Rows.Count, 1).End(xlUp).Row
     
-'Фильтр merchant'
+'Filter merchant'
     ActiveSheet.Range(Cells(1, 1), Cells(maxrow, 2)).AutoFilter Field:=2, Criteria1:="merchant"
     ActiveSheet.AutoFilter.Range.Offset(1, 0).Rows.SpecialCells(xlCellTypeVisible).Delete (xlShiftUp)
     Selection.AutoFilter
     Let maxrow = Cells(ActiveSheet.Cells.Rows.Count, 1).End(xlUp).Row
 
-'Переименование заголовков'
+'Rename columns'
     Range("A1").Select
     ActiveCell.FormulaR1C1 = "Номер заказа"
     Columns("B:E").Select
@@ -23,8 +23,6 @@ Sub Target()
     ActiveCell.FormulaR1C1 = "Статус заказа"
     Range("C1").Select
     ActiveCell.FormulaR1C1 = "Имя"
-    Range("D1").Select
-    ActiveCell.FormulaR1C1 = "Фио"
     Range("D1").Select
     ActiveCell.FormulaR1C1 = "Фамилия"
     Range("E1").Select
@@ -51,7 +49,7 @@ Sub Target()
     ActiveCell.FormulaR1C1 = "Промокод"
     
     
-'Вычисление промокода'
+'Finding promo'
     Range("L2").Select
     Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = "=RC[-2]-RC[-1]"
     Columns("L:L").Select
@@ -60,7 +58,7 @@ Sub Target()
         xlNone, SkipBlanks:=False, Transpose:=False
 
 
-'Обработка даты'
+'Date format'
     Range("M1").Select
     ActiveCell.FormulaR1C1 = "Создание заказа"
     Columns("N:R").Select
@@ -126,7 +124,7 @@ Sub Target()
     Range("N1").Select
     ActiveCell.FormulaR1C1 = "Завершение заказа"
     
-'Настройка ширины столбцов'
+'Weight of columns'
     Columns("T:T").ColumnWidth = 12.57
     Columns("T:T").EntireColumn.AutoFit
     Range("P2").Select
@@ -143,7 +141,7 @@ Sub Target()
     Columns("M:M").EntireColumn.AutoFit
     Columns("N:N").EntireColumn.AutoFit
     
-'Проверка дубликатов'
+'Finding duplicates'
     Range("O1").Select
     ActiveCell.FormulaR1C1 = "Дубликат"
     Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
@@ -153,11 +151,11 @@ Sub Target()
     Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
         xlNone, SkipBlanks:=False, Transpose:=False
         
-'Сцепление значений дубликатов'
+'Concatenate duplicates'
     Range("P1").Select
     ActiveCell.FormulaR1C1 = "Сцепление"
     Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
-            "=IF(RC[-1]=""Первый"",IF(R[1]C[-1]=""Второй"",IF(R[2]C[-1]=""Второй"",IF(R[3]C[-1]=""Второй"",IF(R[4]C[-1]=""Второй"",IF(R[5]C[-1]=""Второй"",IF(R[6]C[-1]=""Второй"",IF(R[7]C[-1]=""Второй"",CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8],""; "",R[7]C[-8]),CONCATENATE(RC[-8],""; "",R[1]C[-8],"";" & _
+            "=IF(RC[-1]=""Первый"",IF(R[1]C[-1]=""Второй"",IF(R[2]C[-1]=""Второй"",IF(R[3]C[-1]=""Второй"",IF(R[4]C[-1]=""Второй"",IF(R[5]C[-1]=""Второй"",IF(R[6]C[-1]=""??????"",IF(R[7]C[-1]=""Второй"",CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8],""; "",R[7]C[-8]),CONCATENATE(RC[-8],""; "",R[1]C[-8],"";" & _
         " "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8],""; "",R[6]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8],""; "",R[5]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8],""; "",R[4]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8],""; "",R[2]C[-8],""; "",R[3]C[-8])),CONCATENATE(RC[-8" & _
         "],""; "",R[1]C[-8],""; "",R[2]C[-8])),CONCATENATE(RC[-8],""; "",R[1]C[-8]))))" & _
         ""
@@ -166,7 +164,7 @@ Sub Target()
     Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
         xlNone, SkipBlanks:=False, Transpose:=False
         
-'Финальный вид столбца товаров'
+'Final column of product'
     Range("Q1").Select
     ActiveCell.FormulaR1C1 = "Товары"
     Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
@@ -176,7 +174,7 @@ Sub Target()
     Selection.PasteSpecial Paste:=xlPasteValuesAndNumberFormats, Operation:= _
         xlNone, SkipBlanks:=False, Transpose:=False
            
-'Настройка столбцов'
+'Columns prop.'
     Columns("P:P").Select
     Selection.Delete Shift:=xlToLeft
     Selection.Cut
@@ -189,7 +187,7 @@ Sub Target()
     Columns("E:E").Select
     Selection.Insert Shift:=xlToRight
     
-'ФИО'
+'Name'
     Range("E1").Select
     ActiveCell.FormulaR1C1 = "ФИО"
     Range(Cells(2, ActiveCell.Column), Cells(maxrow, ActiveCell.Column)).Value = _
@@ -204,7 +202,7 @@ Sub Target()
     Columns("C:C").ColumnWidth = 26
     Range("A1").Select
     
-'Фильтр'
+'FILTER'
     ActiveSheet.Range(Cells(1, 1), Cells(maxrow, 14)).AutoFilter Field:=14, Criteria1:="Второй"
     ActiveSheet.AutoFilter.Range.Offset(1, 0).Rows.SpecialCells(xlCellTypeVisible).Delete (xlShiftUp)
     Selection.AutoFilter
@@ -214,7 +212,7 @@ Sub Target()
     
     
     
-'Настройка столбцов'
+'Columns prop 2'
     Columns("G:G").Select
     With Selection
         .HorizontalAlignment = xlGeneral
@@ -232,7 +230,7 @@ Sub Target()
     Cells.EntireRow.AutoFit
     Range("A1").Select
     
-'Сортировка'
+'Sorting'
     Selection.AutoFilter
     Range("L1").Select
     ActiveSheet.AutoFilter.Sort.SortFields.Clear
@@ -249,7 +247,7 @@ Sub Target()
     Selection.AutoFilter
     Range("A1").Select
 
-'Подготовка к ВПР'
+'VPR prep'
     Columns("B:B").Select
     Selection.Insert Shift:=xlToRight
     Range("B1").Select
@@ -260,7 +258,7 @@ Sub Target()
     ActiveCell.FormulaR1C1 = "Сотрудник"
     Range("A1").Select
     
-'Фильтр Сентября'
+'September filter'
     Selection.AutoFilter
     ActiveSheet.Range(Cells(1, 1), Cells(maxrow, 15)).AutoFilter Field:=14, Criteria1:=Array( _
         "#ЗНАЧ!"), Operator:=xlFilterValues, Criteria2:=Array(1, "2/28/2022", 1, _
@@ -269,6 +267,12 @@ Sub Target()
     ActiveSheet.AutoFilter.Range.Offset(1, 0).Rows.SpecialCells(xlCellTypeVisible).Delete (xlShiftUp)
     Selection.AutoFilter
     Range("A1").Select
+    
+'VPR'
+    Range("B2").Select
+    ActiveCell.FormulaR1C1 = "ВПР(A2;'Источник, канал'!$A$1:$G$46;2;0)"
+    Range("F2").Select
+    ActiveCell.FormulaR1C1 = "ВПР(E2;Сотрудники!$H$1:$J$105;3;0)"
     
     
 End Sub
